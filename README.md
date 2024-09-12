@@ -9,3 +9,5 @@ This project is used by the following People:
 
 - Me
 - My Friends
+
+![Logo](https://github.com/SebastianLuccaTernes/All-In-Tracker/blob/main/images/All-In-Logo.jpeg)
