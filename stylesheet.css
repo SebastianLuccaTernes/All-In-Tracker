@@ -1,3 +1,9 @@
+/* Remove underline and purple Links*/
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:active { text-decoration: none; }
+
 
 /* Make the container a flexbox */
 .container {
@@ -5,6 +11,7 @@
     justify-content: space-between; 
     align-items: center; 
     padding: 20px;
+    background-color: lightgray;
 }
 
 /* Flexbox for logo and title */
@@ -16,8 +23,68 @@
 
 .buttons {
     display: flex;
-    gap: 10px; 
 }
+
+
+button{
+    position: relative;
+    display: block;
+    margin-right: 1.75rem;
+    border-radius: 9999px;
+    border-width: 1px;
+    --tw-border-opacity: 1;
+    border-color: black;
+    padding: 0.50rem 1rem;
+    font-size: 18px;
+    line-height: 26px;
+    letter-spacing: -0.16px;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+
+}
+
+button:hover{
+    --tw-bg-opacity: 1;
+    background-color: white;
+    --tw-shadow: -3px 2px 0 0 black;
+    --tw-shadow-colored: -3px px 0 0 var(--tw-shadow-color);
+    box-shadow: 0 0 #0000, 0 0 #0000, var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 rgba(0, 0, 0, 0)),
+        var(--tw-ring-shadow, 0 0 rgba(0, 0, 0, 0)), var(--tw-shadow);
+
+}
+
+.special-button{
+    position: relative;
+    display: block;
+    margin-right: 1.75rem;
+    border-radius: 9999px;
+    border-width: 1px;
+    --tw-border-opacity: 1;
+    border-color: rgba(0, 0, 0, var(--tw-border-opacity));
+    padding: 0.50rem 2.5rem;
+    font-size: 18px;
+    line-height: 26px;
+    letter-spacing: -0.16px;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+    color: white;
+    background: rgb(0,53,250);
+    background: linear-gradient(90deg, rgba(0,53,250,1) 0%, rgba(255,0,0,1) 100%);
+
+}
+
+.special-button:hover {
+    color: white;
+    --tw-bg-opacity: 1;
+    --tw-shadow: -4px 3px 0 0 black;
+    --tw-shadow-colored: -4px 3px 0 0 var(--tw-shadow-color);
+    box-shadow: 0 0 #0000, 0 0 #0000, black;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 rgba(0, 0, 0, 0)),
+        var(--tw-ring-shadow, 0 0 rgba(0, 0, 0, 0)), var(--tw-shadow);
+}
+
+
 
 /* Make the Logo a specific size */
 .logo {
