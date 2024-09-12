@@ -1,0 +1,27 @@
+
+/* Make the container a flexbox */
+.container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 20px;
+}
+
+/* Flexbox for logo and title */
+.logo-title {
+    display: flex;
+    align-items: center; 
+    gap: 15px; 
+}
+
+.buttons {
+    display: flex;
+    gap: 10px; 
+}
+
+
+.logo {
+    width: 100px; 
+    height: 100px; 
+    background-color: lightgray; 
+}
