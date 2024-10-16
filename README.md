@@ -10,4 +10,4 @@ This project is used by the following People:
 - Me
 - My Friends
 
-![Logo]([https://github.com/SebastianLuccaTernes/All-In-Tracker/blob/main/images/All-In-Logo.jpeg](https://github.com/SebastianLuccaTernes/All-In-Tracker/blob/main/public/images/All-In-Logo.jpeg))
+![Logo](https://github.com/SebastianLuccaTernes/All-In-Tracker/blob/main/public/images/All-In-Logo.jpeg?raw=true)
