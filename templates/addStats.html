@@ -7,8 +7,12 @@
     <title>User Db</title>
 </head>
 <body>
+    <a href="/home"><p>Home</p></a>
+    <a href="/edit-user"><p>edit</p></a>
+
     <h1>User Table</h1>
     {userTable}
+    
     
     <div class="form-container">
         <h2>Create a New User</h2>
@@ -27,6 +31,50 @@
 
             <input type="submit" value="Submit">
         </form>
+    </div>
+
+    <div class="form-container">
+        <h2>Edit User</h2>
+        <form action="/edit-user" method="POST">
+            <label for="select-user">Select User:</label>
+            <select id="select-user" name="select-user" required>
+                {userOptions}
+            </select><br>
+
+            <label for="edit-name">New Name:</label>
+            <input type="text" id="edit-name" name="edit-name"><br>
+
+            <label for="edit-username">New Username:</label>
+            <input type="text" id="edit-username" name="edit-username"><br>
+
+            <label for="edit-email">New Email:</label>
+            <input type="email" id="edit-email" name="edit-email"><br>
+
+            <label for="edit-age">New Age:</label>
+            <input type="number" id="edit-age" name="edit-age"><br>
+
+            <input type="submit" value="Save Changes">
+        </form>
+    </div>
+    <div class="form-container">
+
+    <div class="delete-container">
+        <h2>Delete Specific User</h2>
+        <form action="/delete-user" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+            <input type="submit" value="Delete User">
+        </form>
+    </div>
+
+    
+    <div class="delete-container">
+        <h2>Delete All Users</h2>
+        <form action="/delete-all-users" method="POST">
+            <input type="submit" value="Delete All Users">
+        </form>
+    </div>
+
     </div>
 
 </body>
