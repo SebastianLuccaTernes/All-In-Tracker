@@ -6,6 +6,8 @@ const db = require('./database');
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json()); // For parsing application/json
 app.use(express.static('public'));
+app.set('view engine', 'ejs')
+
 
 app.post('/add-user', (request, response) => {
     const { name, username, email, age } = request.body;
@@ -136,38 +138,8 @@ app.get('/addStats', (request, response) => {
             return console.error(err.message);
         }
 
-        readFile('./templates/addStats.html', 'utf8', (err, html) => {
-            if (err) {
-                response.status(500).send('Sorry, out of order');
-                return;
-            }
-
-            // Generate the users table HTML
-            let usersTable = '<table border="1"><tr><th>ID</th><th>Name</th><th>Username</th><th>Email</th><th>Age</th><th>Created At</th></tr>';
-            rows.forEach((user) => {
-                usersTable += `<tr>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
-                    <td>${user.age}</td>
-                    <td>${user.created_at}</td>
-                </tr>`;
-            });
-            usersTable += '</table>';
-
-            // Generate the user options for the select dropdown
-            let userOptions = '';
-            rows.forEach((user) => {
-                userOptions += `<option value="${user.id}">${user.username}</option>`;
-            });
-
-            // Replace the placeholders in the HTML with the actual content
-            let renderedHtml = html.replace('{userTable}', usersTable);
-            renderedHtml = renderedHtml.replace('{userOptions}', userOptions);
-
-            response.send(renderedHtml);
-        });
+        // Render the EJS template with the user data
+        response.render('addStats', { users: rows });
     });
 });
 

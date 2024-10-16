@@ -8,12 +8,29 @@
 </head>
 <body>
     <a href="/home"><p>Home</p></a>
-    <a href="/edit-user"><p>edit</p></a>
 
     <h1>User Table</h1>
-    {userTable}
-    
-    
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Age</th>
+            <th>Created At</th>
+        </tr>
+        <% users.forEach(user => { %>
+            <tr>
+                <td><%= user.id %></td>
+                <td><%= user.name %></td>
+                <td><%= user.username %></td>
+                <td><%= user.email %></td>
+                <td><%= user.age %></td>
+                <td><%= user.created_at %></td>
+            </tr>
+        <% }) %>
+    </table>
+
     <div class="form-container">
         <h2>Create a New User</h2>
         <form action="/add-user" method="POST">
@@ -38,7 +55,9 @@
         <form action="/edit-user" method="POST">
             <label for="select-user">Select User:</label>
             <select id="select-user" name="select-user" required>
-                {userOptions}
+                <% users.forEach(user => { %>
+                    <option value="<%= user.id %>"><%= user.username %></option>
+                <% }) %>
             </select><br>
 
             <label for="edit-name">New Name:</label>
@@ -56,7 +75,6 @@
             <input type="submit" value="Save Changes">
         </form>
     </div>
-    <div class="form-container">
 
     <div class="delete-container">
         <h2>Delete Specific User</h2>
@@ -67,15 +85,11 @@
         </form>
     </div>
 
-    
     <div class="delete-container">
         <h2>Delete All Users</h2>
         <form action="/delete-all-users" method="POST">
             <input type="submit" value="Delete All Users">
         </form>
     </div>
-
-    </div>
-
 </body>
 </html>
