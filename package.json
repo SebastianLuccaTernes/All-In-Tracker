@@ -9,7 +9,7 @@
   "description": "This will be a Webpage to track Poker Evenings of me and some Friends. This is altought my first Website, and used for a Univerity Module.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",

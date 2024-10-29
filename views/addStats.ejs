@@ -4,32 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheet.css">
-    <title>User Db</title>
+    <title>Player Db</title>
 </head>
 <body>
-    <a href="/home"><p>Home</p></a>
+    <a href="/"><p>Home</p></a>
 
-    <!-- <h1>User Table</h1>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Age</th>
-            <th>Created At</th>
-        </tr>
-        <% users.forEach(user => { %>
-            <tr>
-                <td><%= user.id %></td>
-                <td><%= user.name %></td>
-                <td><%= user.username %></td>
-                <td><%= user.email %></td>
-                <td><%= user.age %></td>
-                <td><%= user.created_at %></td>
-            </tr>
-        <% }) %>
-    </table> -->
 
     <h1> Player Table</h1>
     <table class="player-table" border = "2">
@@ -52,24 +31,6 @@
 
     </table>
 
-    <!-- <div class="form-container">
-        <h2>Create a New User</h2>
-        <form action="/add-user" method="POST">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br>
-
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br>
-
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required><br>
-
-            <input type="submit" value="Submit">
-        </form>
-    </div> -->
 
 
     <div class="form-container">
@@ -130,46 +91,5 @@
 
 
 
-    <!-- <div class="form-container">
-        <h2>Edit User</h2>
-        <form action="/edit-user" method="POST">
-            <label for="select-user">Select User:</label>
-            <select id="select-user" name="select-user" required>
-                <% users.forEach(user => { %>
-                    <option value="<%= user.id %>"><%= user.username %></option>
-                <% }) %>
-            </select><br>
-
-            <label for="edit-name">New Name:</label>
-            <input type="text" id="edit-name" name="edit-name"><br>
-
-            <label for="edit-username">New Username:</label>
-            <input type="text" id="edit-username" name="edit-username"><br>
-
-            <label for="edit-email">New Email:</label>
-            <input type="email" id="edit-email" name="edit-email"><br>
-
-            <label for="edit-age">New Age:</label>
-            <input type="number" id="edit-age" name="edit-age"><br>
-
-            <input type="submit" value="Save Changes">
-        </form>
-    </div>
-
-    <div class="delete-container">
-        <h2>Delete Specific User</h2>
-        <form action="/delete-user" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br>
-            <input type="submit" value="Delete User">
-        </form>
-    </div>
-
-    <div class="delete-container">
-        <h2>Delete All Users</h2>
-        <form action="/delete-all-users" method="POST">
-            <input type="submit" value="Delete All Users">
-        </form>
-    </div> -->
 </body>
 </html>
