@@ -9,6 +9,24 @@ let db = new sqlite3.Database('./database.db', (err) => {
     }
 });
 
+// Create the player table with the correct schema if it doesn't exist
+db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS player (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL UNIQUE,
+        games INTEGER,
+        boughtIn DOUBLE,
+        cashedOut DOUBLE,
+        WonLost DOUBLE
+    )`, (err) => {
+        if (err) {
+            console.error('Error Creating Player Table', err);
+        } else {
+            console.log('Player Table created successfully');
+        }
+    });
+});
+
 // Create the 'users' table if it doesn't exist
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS users (

@@ -9,7 +9,7 @@
 <body>
     <a href="/home"><p>Home</p></a>
 
-    <h1>User Table</h1>
+    <!-- <h1>User Table</h1>
     <table border="1">
         <tr>
             <th>ID</th>
@@ -29,9 +29,30 @@
                 <td><%= user.created_at %></td>
             </tr>
         <% }) %>
+    </table> -->
+
+    <h1> Player Table</h1>
+    <table class="player-table" border = "2">
+        <tr>
+            <th>Name</th>
+            <th>Games</th>
+            <th>Bought In</th>
+            <th>Cashed Out</th>
+            <th>Won Lost </th>
+        </tr>
+        <% player.forEach(player => { %>
+            <tr>
+                <td><%= player.name %></td>
+                <td><%= player.games %></td>
+                <td><%= player.boughtIn %></td>
+                <td><%= player.cashedOut %></td>
+                <td><%= player.WonLost %></td>
+            </tr>
+        <% }) %>
+
     </table>
 
-    <div class="form-container">
+    <!-- <div class="form-container">
         <h2>Create a New User</h2>
         <form action="/add-user" method="POST">
             <label for="name">Name:</label>
@@ -48,9 +69,68 @@
 
             <input type="submit" value="Submit">
         </form>
-    </div>
+    </div> -->
+
 
     <div class="form-container">
+        <h2>Add new Player</h2>
+        <form action="/add-player" method="POST">
+            <label for="playerName">Name:</label>
+            <input type="text" id="playerName" name="playerName" required><br>
+
+            <label for="games">Games:</label>
+            <input type="number" id="games" name="games" required><br>
+
+            <label for="boughtIn">Buy in:</label>
+            <input type="number" id="boughtIn" name="boughtIn" required><br>
+
+            <label for="cashedOut">Cashed Out:</label>
+            <input type="number" id="cashedOut" name="cashedOut" required><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+
+    <div class="form-container">
+        <h2>Add Stats for Players</h2>
+        <form action="/add-stats" method="POST">
+            <label for="select-player">Select Player:</label>
+            <select id="select-player" name="select-player" required>
+                <% player.forEach(player => { %>
+                    <option value="<%= player.id %>"><%= player.name %></option>
+                <% }) %>
+            </select><br>
+
+            <label for="edit-boughtIn">Bought In:</label>
+            <input type="number" id="edit-boughtIn" name="edit-boughtIn"><br>
+
+            <label for="edit-cashedOut">Cashed Out:</label>
+            <input type="number" id="edit-cashedOut" name="edit-cashedOut"><br>
+
+            <input type="submit" value="Save Changes">
+        </form>
+    </div>
+
+
+
+
+    <div class="form-container">
+        <h2>Delete Player</h2>
+        <form action="/delete-player" method="POST">
+            <label for="selected-player">Select Player:</label>
+            <select id="selected-player" name="selected-player" required>
+                <% player.forEach(player => { %>
+                    <option value="<%= player.id %>"><%= player.name %></option>
+                <% }) %>
+            </select><br>
+            <input type="submit" value="Delete Selected Player">
+        </form>
+    </div>
+
+
+
+    <!-- <div class="form-container">
         <h2>Edit User</h2>
         <form action="/edit-user" method="POST">
             <label for="select-user">Select User:</label>
@@ -90,6 +170,6 @@
         <form action="/delete-all-users" method="POST">
             <input type="submit" value="Delete All Users">
         </form>
-    </div>
+    </div> -->
 </body>
 </html>

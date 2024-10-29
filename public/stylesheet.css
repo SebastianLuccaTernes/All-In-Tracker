@@ -99,6 +99,7 @@ html, body {
     margin: 20px;
     border-radius: 10px;
     background-color: #ededed;
+    padding-bottom: 20px; 
 }
 
 form {
@@ -108,4 +109,11 @@ form {
 form label, form input {
     display: block;
     margin-bottom: 10px;
+}
+
+.player-table {
+    border: 2px solid #000; 
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px; 
 }
