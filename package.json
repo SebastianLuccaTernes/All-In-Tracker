@@ -3,5 +3,15 @@
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "name": "all-in-tracker",
+  "version": "1.0.0",
+  "description": "This will be a Webpage to track Poker Evenings of me and some Friends. This is altought my first Website, and used for a Univerity Module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
