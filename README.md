@@ -30,11 +30,12 @@ For this Project I used:
 ## How to set it up
 
 1. Clone the Repo
-2. npm install node
-3. npm install dotenv
-4. npm install ejs
-5. npm install express
-6. npm install firebase
+2. npm init -y
+3. npm install node
+4. npm install dotenv
+5. npm install ejs
+6. npm install express
+7. npm install firebase
 
 ## Get the Enviroment Variables
 
