@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>Player Db</title>
+
+
+
+    <script src="/index.js" defer></script>
+</head>
+<body>
+    <a href="/"><p>Home</p></a> <br>
+    <a href="/view-player"><p>Player Table</p></a>
+
+
+
+    <h1> Add Player</h1>
+
+    <main>
+        <div class="form-container">
+
+        <form action="/add-player" method="POST">
+            <h2> Add a New Player</h2>
+            <label for="playerName">Name:</label>
+            <input type="text" id = playerName name = 'playerName' required /> <br />
+
+            <label for="games">Games:</label>
+            <input type="number" id = games name = 'games' required /> <br />
+
+            <label for="boughtIn">Buy in:</label>
+            <input type="number" id = boughtIn name = 'boughtIn' required /> <br />
+            
+            <label for="cashedOut">Cashed Out:</label>
+            <input type="number" id = cashedOut name = 'cashedOut' required max = '500'/> <br />
+
+
+
+            <input type="submit" value="Submit">
+
+        </form>
+    </div>
+
+
+    <div class="form-container">
+        <form action="/add-player/delete" method="POST">
+            <h2> Delete Player </h2>
+            <label for="select-player">Select Player:</label>
+            <select name="select-player" id="select-player" required>
+                <% players.forEach(player => { %>
+                    <option value="<%= player.playerName %>"><%= player.playerName %></option>
+                <% }) %>
+            </select><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    </main>
+
+
+
+</body>
+</html>

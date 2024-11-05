@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>Player Db</title>
+    <script src="/index.js" type="application/javascript" defer></script>
+</head>
+<body>
+    <a href="/"><p>Home</p></a> <br>
+    <a href="/view-player"><p>Player Table</p></a>
+    <h1> Add Stat to a Player</h1>
+    <main>
+        <div class="form-container">
+            <form action="/add-stat" method="POST">
+                <h2> Add Stat to a Player</h2>
+                <label for="select-player">Select Player:</label>
+                <select name="select-player" id="select-player" required>
+                    <% players.forEach(player => { %>
+                        <option value="<%= player.playerName %>"><%= player.playerName %></option>
+                    <% }) %>
+                </select><br>
+                <label for="edit-boughtIn">Bought In:</label>
+                <input type="number" id="edit-boughtIn" name="edit-boughtIn"><br>
+                <label for="edit-cashedOut">Cashed Out:</label>
+                <input type="number" id="edit-cashedOut" name="edit-cashedOut"><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </main>
+</body>
+</html>

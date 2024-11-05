@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>Player Db</title>
+
+
+
+    <script src="/index.js" defer></script>
+</head>
+<body>
+    <a href="/"><p>Home</p></a> <br>
+    <a href="/add-player"><p>Add Player</p></a>
+    <a href="/add-stat"><p>Add Stats</p></a>
+
+
+    <h1> Player Table</h1>
+
+    <main>
+        <table class="player-table" border = "2">
+            <tr>
+                <th>Name</th>
+                <th>Games</th>
+                <th>Bought In</th>
+                <th>Cashed Out</th>
+                <th>Won Lost </th>
+            </tr>
+            <% players.forEach(player => { %>
+                <tr>
+                    <td><%= player.playerName %></td>
+                    <td><%= player.games %></td>
+                    <td><%= player.boughtIn %></td>
+                    <td><%= player.cashedOut %></td>
+                    <td><%= player.wonOrLost %></td>
+                </tr>
+            <% }) %>
+    
+        </table>
+
+        </main>
+
+
+
+</body>
+</html>

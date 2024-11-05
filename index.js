@@ -1,124 +1,42 @@
-const express = require('express');
-const app = express();
-const { readFile } = require('fs');
+import express from 'express';
+import { readFile } from 'fs';
+import db from './config/database.js';
+import Player from './config/playerSchema.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const fdb = require('./firebase-database');
-const { collection, doc, setDoc, getDocs, updateDoc, deleteDoc, getDoc } = require('firebase/firestore');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+
+
 
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json()); 
-app.use(express.static('public'));
+
+app.use(express.static('public', {
+    setHeaders: (res, path) => {
+      if (path.endsWith('.js')) {
+        res.set('Content-Type', 'application/javascript');
+      }
+    }
+  }));
+
 app.set('view engine', 'ejs');
 
-app.post('/add-player', (request, response) => {
-
-    const { playerName, games, boughtIn, cashedOut } = request.body;
-
-    const playerDocRef = doc(collection(fdb, 'player'));
-
-    const realData = {
-        playerID: playerDocRef.id,
-        name: playerName,
-        games: games,
-        boughtIn: boughtIn,
-        cashedOut: cashedOut,
-        wonOrLost: cashedOut - boughtIn
-    };
-
-    setDoc(playerDocRef, realData)
-        .then(() => {
-            console.log('player added successfully to firebase db');
-            response.redirect('/add-stats');
-        })
-        .catch((error) => {
-            console.error('Error adding player to firebase db:', error);
-            response.status(500).send('Error adding player');
-        });
-});
 
 
-
-app.get('/get-player', async(request, response) => {
-    try{
-        const playersSnapshot = await getDocs(collection(fdb, 'player'));
-        const players = playersSnapshot.docs.map(doc => doc.data());
-        res.render('addStats', { firebasePlayers: players });
-
-    } catch (error){
-        console.error('error fetching the players from firebase', error)
-        res.status(500).send('Error feching user form firebase')
-    }
-});
-
-async function updatePlayer(documentId, newData){
-    try {
-        const docRef = doc(fdb, 'player', documentId); 
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            const playerData = docSnap.data();
-            await updateDoc(docRef, {
-                games: parseFloat(playerData.games) + 1,
-                boughtIn: playerData.boughtIn + newData.boughtIn,
-                cashedOut: playerData.cashedOut + newData.cashedOut,
-                wonOrLost: playerData.wonOrLost + newData.cashedOut - newData.boughtIn
-            });
-            console.log("Document updated successfully!");
-        } else {
-            console.log("No such document!");
-        }
-    } catch (error) {
-        console.error("Error updating document: ", error);
-    }
-}
-
-
-app.post('/add-stats-new', (request, response) => {
-    const { 'select-player': playerId, 'edit-boughtIn': newBoughtIn, 'edit-cashedOut': newCashedOut } = request.body;
-    console.log('Received data:', { playerId, newBoughtIn, newCashedOut });
-
-    updatePlayer(playerId, {
-        boughtIn: parseFloat(newBoughtIn),
-        cashedOut: parseFloat(newCashedOut)
-    });
-    response.redirect('/add-stats');
-
-
-});
-
-
-app.post('/delete-player-new', async(request, response) => {
-    const {'select-player' : playerId} = request.body;
-
-    if (!playerId) {
-        console.error('Player ID is missing');
-        return response.status(400).send('Player ID is required');
-    }
-
-    try {
-        const docRef = doc(fdb, 'player', playerId); 
-        await deleteDoc(docRef); 
-        console.log('Player deleted successfully');
-        response.redirect('/add-stats');
-        } catch (error) {
-        console.error('error deleting specific player', error)
-        response.status(500).send('Error deleting player');
-
-    }
-});
+//Static Page Routing
 
 app.get('/', (request, response) => {
-
-        // Load the HTML template
-        readFile('./templates/home.html', 'utf8', (err, html) => {
-            if (err) {
-                response.status(500).send('Sorry, out of order');
-                return;
-            }
-
-            response.send(html);
-        });
-    
+    readFile('./templates/home.html', 'utf8', (err, html) => {
+        if (err) {
+            response.status(500).send('Sorry, out of order');
+            return;
+        }
+        response.send(html);
+    });
 });
 
 app.get('/learning', (request, response) => {
@@ -127,7 +45,7 @@ app.get('/learning', (request, response) => {
             response.status(500).send('Sorry, out of order');
             return;
         }
-        response.send(html)
+        response.send(html);
     });
 });
 
@@ -137,22 +55,112 @@ app.get('/cheatsheet', (request, response) => {
             response.status(500).send('Sorry, out of order');
             return;
         }
-        response.send(html)
+        response.send(html);
     });
 });
 
-app.get('/add-stats', async (req, res) => {
+app.get('/index.js', (req, res) => {
+    res.type('.js');
+    res.sendFile(path.join(__dirname, 'index.js'));
+});
+
+//Dynamic Pages
+
+app.get('/view-player', async (request, response) => {
     try {
-        const playersSnapshot = await getDocs(collection(fdb, 'player'));
-        const firebasePlayers = playersSnapshot.docs.map(doc => doc.data());
-
-
-        res.render('addStats', {firebasePlayers, firebasePlayers});
+        const players = await Player.find({}).exec();
+        response.render('view-player', {
+            players: players
+        });
     } catch (error) {
-        console.error('Error fetching players from Firebase:', error);
-        res.status(500).send('Error fetching players from Firebase');
+        console.error('Error rendering the view', error);
+        response.status(500).send('Error rendering the view');
     }
 });
 
-    // Start the server
+app.get('/add-player', async (request, response) => {
+    try {
+        const players = await Player.find({}).exec();
+        response.render('add-player', {
+            players: players
+        });
+    } catch (error) {
+        console.error('Error rendering the view', error);
+        response.status(500).send('Error rendering the view');
+    }
+});
+
+app.get('/add-stat', async (request, response) => {
+    try {
+        const players = await Player.find({}).exec();
+        response.render('add-stat', {
+            players: players
+        });
+    } catch (error) {
+        console.error('Error rendering the view', error);
+        response.status(500).send('Error rendering the view');
+    }
+});
+
+
+
+//Post Requests
+
+app.post('/add-player', async (request, response) => {
+    try {
+        const player = new Player({
+            playerName: request.body.playerName,
+            games: request.body.games,
+            boughtIn: request.body.boughtIn,
+            cashedOut: request.body.cashedOut,
+            wonOrLost: request.body.cashedOut - request.body.boughtIn
+        });
+
+        await player.save();
+        response.redirect('/view-player');
+    } catch (error) {
+        console.error('player could not be created', error);
+        response.send('Error adding the player to the db');
+    }
+});
+
+
+app.post('/add-stat', async (request, response) => {
+    try {
+        const { 'select-player': playerName, 'edit-boughtIn': additionalBoughtIn, 'edit-cashedOut': additionalCashedOut } = request.body;
+
+        const difference = additionalCashedOut - additionalBoughtIn;
+
+        await Player.findOneAndUpdate(
+            { playerName: playerName },
+            {
+                $inc: {
+                    boughtIn: additionalBoughtIn,
+                    cashedOut: additionalCashedOut,
+                    wonOrLost: difference
+                }
+            }
+        );
+
+        response.redirect('/view-player');
+    } catch (error) {
+        console.error('Error updating player stats', error);
+        response.status(500).send('Error updating player stats');
+    }
+});
+
+app.post('/add-player/delete', async (request, response) => {
+    const playerName = request.body['select-player'];
+
+    try {
+      await Player.findOneAndDelete({ playerName: playerName });      
+      response.redirect('/view-player')
+    }catch (error) {
+      console.error(error)
+      response.send('Error: No Player was deleted.')
+    }
+  });
+
+
+// Start the server
 app.listen(process.env.PORT || 8000, () => console.log('App available on http://localhost:8000'));

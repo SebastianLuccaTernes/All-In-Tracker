@@ -1,16 +1,17 @@
 {
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "ejs": "^3.1.10",
-    "express": "^4.21.1",
-    "firebase": "^11.0.1"
-  },
   "name": "all-in-tracker",
   "version": "1.0.0",
   "description": "This will be a Webpage to track Poker Evenings of me and some Friends. This is altought my first Website, and used for a Univerity Module.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "mongoose": "^8.8.0"
   },
   "keywords": [],
   "author": "",
