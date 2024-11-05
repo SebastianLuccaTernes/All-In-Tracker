@@ -22,20 +22,18 @@ For this Project I used:
 - CSS
 - JS
 - Node
-- Firebase Firestore
+- MongoDb
+- Mongoose
 - Express
 - Ejs
 
 
 ## How to set it up
 
-1. Clone the Repo
-2. npm init -y
-3. npm install node
-4. npm install dotenv
-5. npm install ejs
-6. npm install express
-7. npm install firebase
+1. git clone https://github.com/SebastianLuccaTernes/All-In-Tracker.git
+2. cd into project directory
+3. npm install 
+4. npm start
 
 ## Get the Enviroment Variables
 
