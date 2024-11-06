@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import setupMiddleware from './middleware/setupMiddleware.js';
-import staticRoutes from './routes/staticroutes.js';
+import staticRoutes from './routes/staticRoutes.js';
 import dynamicRoutes from './routes/dynamicRoutes.js';
 import Player from './config/playerSchema.js';
 import './config/database.js'; 
