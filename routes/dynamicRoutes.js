@@ -96,4 +96,16 @@ router.post('/add-stat', async (req, res) => {
     }
 });
 
+router.post('/add-player/delete', async (request, response) => {
+    const playerName = request.body['select-player'];
+
+    try {
+      await Player.findOneAndDelete({ playerName: playerName });      
+      response.redirect('/view-player')
+    }catch (error) {
+      console.error(error)
+      response.send('Error: No Player was deleted.')
+    }
+  });
+
 export default router;
