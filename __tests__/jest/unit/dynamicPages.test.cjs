@@ -1,10 +1,10 @@
 require('dotenv').config();
 const request = require('supertest');
 const express = require('express');
-const dynamicRoutes = require('../../routes/dynamicRoutes.js').default;
-const Player = require('../../config/playerSchema.js').default;
+const dynamicRoutes = require('../../../routes/dynamicRoutes.js').default;
+const Player = require('../../../config/playerSchema.js').default;
 const mongoose = require('mongoose');
-const { default: setupMiddleware } = require('../../middleware/setupMiddleware.js');
+const { default: setupMiddleware } = require('../../../middleware/setupMiddleware.js');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));

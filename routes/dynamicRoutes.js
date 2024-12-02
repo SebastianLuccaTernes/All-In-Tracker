@@ -37,6 +37,25 @@ router.get('/add-player', async (request, response) => {
     }
 });
 
+router.put('/edit-player/:id', async (req, res) => {
+    try {
+      const updatedData = {
+        playerName: req.body.playerName,
+        games: req.body.games,
+        boughtIn: req.body.boughtIn,
+        cashedOut: req.body.cashedOut,
+        wonOrLost: req.body.cashedOut - req.body.boughtIn,
+      };
+  
+      await Player.findByIdAndUpdate(req.params.id, updatedData);
+      res.redirect('/view-player');
+    } catch (error) {
+      console.error('Error updating player', error);
+      res.status(500).send('Error updating the player');
+    }
+  });
+
+  
 router.get('/add-stat', async (request, response) => {
     try {
         const players = await Player.find({}).exec();
@@ -73,21 +92,29 @@ router.post('/add-player', async (req, res) => {
 router.post('/add-stat', async (req, res) => {
     try {
         const playerName = req.body['select-player'];
-        const additionalBoughtIn = req.body['edit-boughtIn'];
-        const additionalCashedOut = req.body['edit-cashedOut'];
-        const difference = additionalCashedOut - additionalBoughtIn;
+        const additionalBoughtIn = Number(req.body['edit-boughtIn']);
+        const additionalCashedOut = Number(req.body['edit-cashedOut']);
 
-        await Player.findOneAndUpdate(
+        // Find the player and update the stats
+        const updatedPlayer = await Player.findOneAndUpdate(
             { playerName },
             {
                 $inc: {
                     games: 1,
                     boughtIn: additionalBoughtIn,
                     cashedOut: additionalCashedOut,
-                    wonOrLost: difference
                 }
-            }
+            },
+            { new: true }
         );
+
+        if (!updatedPlayer) {
+            return res.status(404).send('Player not found');
+        }
+
+        // Update wonOrLost based on the new totals
+        updatedPlayer.wonOrLost = updatedPlayer.cashedOut - updatedPlayer.boughtIn;
+        await updatedPlayer.save();
 
         res.redirect('/view-player');
     } catch (error) {
