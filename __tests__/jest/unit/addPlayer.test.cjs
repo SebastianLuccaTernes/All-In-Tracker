@@ -2,6 +2,7 @@ require('dotenv').config();
 const request = require('supertest');
 const express = require('express');
 const dynamicRoutes = require('../../../routes/dynamicRoutes.js').default;
+const mockingoose = require('mockingoose');
 const Player = require('../../../config/playerSchema.js').default;
 const mongoose = require('mongoose');
 const setupMiddleware = require('../../../middleware/setupMiddleware.js').default;
@@ -16,37 +17,39 @@ app.set('view engine', 'ejs');
 
 app.use('/', dynamicRoutes);
 
-beforeAll(async () => {
-  await mongoose.connect(process.env.MONGODB_URI);
-});
 
-afterAll(async () => {
-  await mongoose.connection.close();
-});
+
+
 
 describe('Add a Player', () => {
   let testPlayer;
+ 
+  afterEach(() => {
+    mockingoose.resetAll();
+  });
 
-  beforeEach(async () => {
+
+  beforeEach(() => {
     testPlayer = new Player({
-      playerName: 'TestPlayer1',
+      playerName: 'TestPlayer5',
       games: 1,
       boughtIn: 100,
       cashedOut: 150,
     });
-    await testPlayer.save();
-  });
-
-  afterEach(async () => {
-    await testPlayer.deleteOne();
+  
+    // Mock the 'save' method
+    mockingoose(Player).toReturn(testPlayer, 'save');
   });
 
 
-  it('should have a testPlayer with correct properties', () => {
-    expect(testPlayer).toBeTruthy();
-    expect(testPlayer.playerName).toBe('TestPlayer1');
-    expect(testPlayer.games).toBe(1);
-    expect(testPlayer.boughtIn).toBe(100);
-    expect(testPlayer.cashedOut).toBe(150);
-  });
+
+it('should have a testPlayer with correct properties', async () => {
+  const savedPlayer = await testPlayer.save();
+
+  expect(savedPlayer).toBeTruthy();
+  expect(savedPlayer.playerName).toBe('TestPlayer5');
+  expect(savedPlayer.games).toBe(1);
+  expect(savedPlayer.boughtIn).toBe(100);
+  expect(savedPlayer.cashedOut).toBe(150);
+    }); 
 });

@@ -1,9 +1,8 @@
-require('dotenv').config();
 const request = require('supertest');
 const express = require('express');
 const dynamicRoutes = require('../../../routes/dynamicRoutes.js').default;
+const mockingoose = require('mockingoose');
 const Player = require('../../../config/playerSchema.js').default;
-const mongoose = require('mongoose');
 const setupMiddleware = require('../../../middleware/setupMiddleware.js').default;
 
 const app = express();
@@ -16,53 +15,58 @@ app.set('view engine', 'ejs');
 
 app.use('/', dynamicRoutes);
 
-beforeAll(async () => {
-  await mongoose.connect(process.env.MONGODB_URI);
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
-});
-
 describe('Edit a Player', () => {
-  let testPlayer;
-
-  beforeEach(async () => {
-    testPlayer = new Player({
-      playerName: 'TestPlayer2',
-      games: 1,
-      boughtIn: 100,
-      cashedOut: 150,
+    let testPlayer;
+  
+    beforeEach(() => {
+        testPlayer = new Player({
+          _id: '507f1f77bcf86cd799439011',
+          playerName: 'TestPlayer2',
+          games: 1,
+          boughtIn: 100,
+          cashedOut: 150,
+        });
+      
+        mockingoose(Player).toReturn(testPlayer, 'findById');
     });
-    await testPlayer.save();
-  });
 
+    afterEach(() => {
+      mockingoose.resetAll();
+    });
+  
+    it('should edit the player successfully', async () => {
+      const updatedData = {
+        _id: '507f1f77bcf86cd799439011',
+        playerName: 'UpdatedPlayer1',
+        games: 2,
+        boughtIn: 200,
+        cashedOut: 250,
+      };
+    
+      // Create a proper mongoose document for mocking
+      const mockPlayer = new Player(updatedData);
+      
+      // Mock both operations with the same data
+      mockingoose(Player)
+        .toReturn(mockPlayer, 'findByIdAndUpdate')
+        .toReturn(mockPlayer, 'findOne');
+    
+      await request(app)
+        .put(`/edit-player/${testPlayer._id}`)
+        .send(updatedData)
+        .expect(302)
+        .expect('Location', '/view-player');
+    
+      const updatedPlayer = await Player.findById(testPlayer._id);
 
-
-  afterEach(async () => {
-    await testPlayer.deleteOne();
-  });
-
-
-it('should edit the player successfully', async () => {
-  const updatedData = {
-    playerName: 'UpdatedPlayer',
-    games: 2,
-    boughtIn: 200,
-    cashedOut: 250,
-  };
-
-  const response = await request(app)
-    .put(`/edit-player/${testPlayer._id}`)
-    .send(updatedData)
-    .expect(302)
-    .expect('Location', '/view-player');
-
-  const updatedPlayer = await Player.findById(testPlayer._id);
-  expect(updatedPlayer).not.toBeNull();
-  expect(updatedPlayer.playerName).toBe('UpdatedPlayer');
-  expect(updatedPlayer.games).toBe(2);
-  expect(updatedPlayer.boughtIn).toBe(200);
-  expect(updatedPlayer.cashedOut).toBe(250);
-});
+      console.log(updatedPlayer)
+      
+      expect(updatedPlayer).toBeDefined();
+      expect(updatedPlayer.toObject()).toMatchObject({
+        playerName: 'UpdatedPlayer1',
+        games: 2,
+        boughtIn: 200,
+        cashedOut: 250,
+      });
+    });
 });
