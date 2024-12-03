@@ -43,10 +43,8 @@ describe('Edit a Player', () => {
         cashedOut: 250,
       };
     
-      // Create a proper mongoose document for mocking
       const mockPlayer = new Player(updatedData);
       
-      // Mock both operations with the same data
       mockingoose(Player)
         .toReturn(mockPlayer, 'findByIdAndUpdate')
         .toReturn(mockPlayer, 'findOne');
@@ -58,8 +56,6 @@ describe('Edit a Player', () => {
         .expect('Location', '/view-player');
     
       const updatedPlayer = await Player.findById(testPlayer._id);
-
-      console.log(updatedPlayer)
       
       expect(updatedPlayer).toBeDefined();
       expect(updatedPlayer.toObject()).toMatchObject({

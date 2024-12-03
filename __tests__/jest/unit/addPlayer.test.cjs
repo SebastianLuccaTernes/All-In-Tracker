@@ -29,21 +29,17 @@ describe('Add a Player', () => {
   });
 
 
-  beforeEach(() => {
-    testPlayer = new Player({
-      playerName: 'TestPlayer5',
-      games: 1,
-      boughtIn: 100,
-      cashedOut: 150,
-    });
-  
-    // Mock the 'save' method
-    mockingoose(Player).toReturn(testPlayer, 'save');
+it('should have a testPlayer with correct properties', async () => {
+
+
+  testPlayer = new Player({
+    playerName: 'TestPlayer5',
+    games: 1,
+    boughtIn: 100,
+    cashedOut: 150,
   });
 
-
-
-it('should have a testPlayer with correct properties', async () => {
+  mockingoose(Player).toReturn(testPlayer, 'save');
   const savedPlayer = await testPlayer.save();
 
   expect(savedPlayer).toBeTruthy();

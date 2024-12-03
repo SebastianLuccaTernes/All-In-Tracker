@@ -35,7 +35,6 @@ describe('Delete a Player', () => {
         cashedOut: 150,
       });
     
-      // Mock the findOne and findOneAndDelete methods
       mockingoose(Player).toReturn(testPlayer, 'findOne');
       mockingoose(Player).toReturn(testPlayer, 'findOneAndDelete');
     });
@@ -47,7 +46,6 @@ describe('Delete a Player', () => {
         .expect(302)
         .expect('Location', '/view-player');
   
-      // Verify the player was deleted
       mockingoose(Player).toReturn(null, 'findOne');
       const deletedPlayer = await Player.findOne({ playerName: 'TestPlayer5' });
       expect(deletedPlayer).toBeNull();
